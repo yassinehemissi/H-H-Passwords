@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model data {
+  data_id            Int    @id @default(autoincrement())
+  data_file_location String @db.Text
+  data_key_id        Int
+  data_title         String @db.Text
+  data_owner_id      Int?
+  keys               keys   @relation(fields: [data_key_id], references: [key_id], onDelete: NoAction, onUpdate: NoAction, map: "data_keys_key_id_fk")
+  users              users? @relation(fields: [data_owner_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "data_users_user_id_fk")
+
+  @@index([data_key_id], map: "data_keys_key_id_fk")
+  @@index([data_owner_id], map: "data_users_user_id_fk")
+}
+
+model keys {
+  key_id        Int         @id @default(autoincrement())
+  key_signature String?     @db.Text
+  key_name      String      @db.Text
+  key_type      Int
+  key_owner     Int
+  data          data[]
+  passwords     passwords[]
+}
+
+model passwords {
+  password_id       Int     @id @default(autoincrement())
+  password          String  @db.Text
+  password_key_id   Int?
+  password_title    String? @db.Text
+  password_owner_id Int?
+  keys              keys?   @relation(fields: [password_key_id], references: [key_id], onDelete: NoAction, onUpdate: NoAction, map: "passwords_keys_key_id_fk")
+  users             users?  @relation(fields: [password_owner_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "passwords_users_user_id_fk")
+
+  @@index([password_key_id], map: "passwords_keys_key_id_fk")
+  @@index([password_owner_id], map: "passwords_users_user_id_fk")
+}
+
+model users {
+  user_id    Int         @id @default(autoincrement())
+  user_name  String      @db.Text
+  user_email String      @db.Text
+  data       data[]
+  passwords  passwords[]
+}
