@@ -35,4 +35,4 @@ This project, created for a Cyber Security class mini-project, introduces a pass
 
 ### Demo 
 
-![demo](https://streamable.com/e3r5uv)
+You can find a demo of the application: https://streamable.com/e3r5uv
