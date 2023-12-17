@@ -32,3 +32,7 @@ This project, created for a Cyber Security class mini-project, introduces a pass
     }
    ```
 1. run the app using `npm run`
+
+### Demo 
+
+![demo](https://streamable.com/e3r5uv)
